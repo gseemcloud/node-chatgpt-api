@@ -9,6 +9,7 @@ import inquirer from 'inquirer';
 import inquirerAutocompletePrompt from 'inquirer-autocomplete-prompt';
 import ChatGPTClient from '../src/ChatGPTClient.js';
 import BingAIClient from '../src/BingAIClient.js';
+import DeepSeekClient from '../src/DeepSeekClient.js';
 
 const arg = process.argv.find(_arg => _arg.startsWith('--settings'));
 const path = arg?.split('=')[1] ?? './settings.js';
@@ -81,6 +82,13 @@ switch (clientToUse) {
             cache: settings.cacheOptions,
         });
         break;
+    case 'deepseek':
+        client = new DeepSeekClient(
+            settings.deepseekApiKey || settings.deepseekClient?.apiKey,
+            settings.deepseekClient,
+            settings.cacheOptions,
+        );
+        break;
     default:
         client = new ChatGPTClient(
             settings.openaiApiKey || settings.chatGptClient.openaiApiKey,
@@ -152,6 +160,9 @@ async function onMessage(message) {
     switch (clientToUse) {
         case 'bing':
             aiLabel = 'Bing';
+            break;
+        case 'deepseek':
+            aiLabel = 'DeepSeek';
             break;
         default:
             aiLabel = settings.chatGptClient?.chatGptLabel || 'ChatGPT';
@@ -252,7 +263,7 @@ async function newConversation() {
 }
 
 async function deleteAllConversations() {
-    if (clientToUse !== 'chatgpt') {
+    if (clientToUse !== 'chatgpt' && clientToUse !== 'deepseek') {
         logWarning('Deleting all conversations is only supported for ChatGPT client.');
         return conversation();
     }
@@ -262,7 +273,7 @@ async function deleteAllConversations() {
 }
 
 async function copyConversation() {
-    if (clientToUse !== 'chatgpt') {
+    if (clientToUse !== 'chatgpt' && clientToUse !== 'deepseek') {
         logWarning('Copying conversations is only supported for ChatGPT client.');
         return conversation();
     }
