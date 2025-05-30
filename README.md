@@ -124,6 +124,7 @@ Discord user @pig#8932 has found a working `text-chat-davinci-002` model, `text-
   - Includes a built-in jailbreak you can activate which enables unlimited chat messages per conversation, unlimited messages per day, and brings Sydney back. 😊 
 - `ChatGPTBrowserClient`: support for the official ChatGPT website, using a reverse proxy server for a Cloudflare bypass.
   - **There may be a high chance of your account being banned if you continue to automate chat.openai.com.** Continue doing so at your own risk.
+- `DeepSeekClient`: experimental support for the DeepSeek API (assumes OpenAI compatible endpoints).
 
 ## Getting Started
 
@@ -242,7 +243,7 @@ module.exports = {
         host: process.env.API_HOST || 'localhost',
         // (Optional) Set to true to enable `console.debug()` logging
         debug: false,
-        // (Optional) Possible options: "chatgpt", "chatgpt-browser", "bing". (Default: "chatgpt")
+        // (Optional) Possible options: "chatgpt", "chatgpt-browser", "bing", "deepseek". (Default: "chatgpt")
         clientToUse: 'chatgpt',
         // (Optional) Generate titles for each conversation for clients that support it (only ChatGPTClient for now).
         // This will be returned as a `title` property in the first response of the conversation.
@@ -271,7 +272,7 @@ module.exports = {
     },
     // Options for the CLI app
     cliOptions: {
-        // (Optional) Possible options: "chatgpt", "bing".
+        // (Optional) Possible options: "chatgpt", "bing", "deepseek".
         // clientToUse: 'bing',
     },
 };

@@ -62,6 +62,18 @@ export default {
         // (Optional) Set to true to enable `console.debug()` logging
         debug: false,
     },
+    deepseekClient: {
+        // Your DeepSeek API key
+        apiKey: process.env.DEEPSEEK_API_KEY || '',
+        // Optional reverse proxy URL
+        // reverseProxyUrl: '',
+        // (Optional) Default model name
+        modelOptions: {
+            model: 'deepseek-chat',
+        },
+        proxy: '',
+        debug: false,
+    },
     // Options for the API server
     apiOptions: {
         port: process.env.API_PORT || 3000,
@@ -78,7 +90,7 @@ export default {
         perMessageClientOptionsWhitelist: {
             // The ability to switch clients using `clientOptions.clientToUse` will be disabled if `validClientsToUse` is not set.
             // To allow switching clients per message, you must set `validClientsToUse` to a non-empty array.
-            validClientsToUse: ['bing', 'chatgpt', 'chatgpt-browser'], // values from possible `clientToUse` options above
+            validClientsToUse: ['bing', 'chatgpt', 'chatgpt-browser', 'deepseek'], // values from possible `clientToUse` options above
             // The Object key, e.g. "chatgpt", is a value from `validClientsToUse`.
             // If not set, ALL options will be ALLOWED to be changed. For example, `bing` is not defined in `perMessageClientOptionsWhitelist` above,
             // so all options for `bingAiClient` will be allowed to be changed.
@@ -93,11 +105,14 @@ export default {
                 // If you want to allow changing all `modelOptions`, define `modelOptions` here instead of `modelOptions.temperature`.
                 'modelOptions.temperature',
             ],
+            deepseek: [
+                'modelOptions.temperature',
+            ],
         },
     },
     // Options for the CLI app
     cliOptions: {
-        // (Optional) Possible options: "chatgpt", "bing".
+        // (Optional) Possible options: "chatgpt", "bing", "deepseek".
         // clientToUse: 'bing',
     },
 };
